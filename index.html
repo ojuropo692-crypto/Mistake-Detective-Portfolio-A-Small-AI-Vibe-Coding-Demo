@@ -1,1 +1,665 @@
-<h1>小学英语错词义辨析学习页 - 占位</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>英语错词辨析 · 五年级</title>
+  <style>
+    :root {
+      --bg: #f3f6f1;
+      --ink: #243127;
+      --muted: #5d6c63;
+      --card: #ffffff;
+      --line: #e3ebe4;
+      --green: #2f8f68;
+      --green-dark: #22694c;
+      --green-soft: #e7f6ee;
+      --coral: #c65b45;
+      --coral-soft: #fff0eb;
+      --gold: #f6d98a;
+      --shadow: 0 12px 32px rgba(36, 49, 39, 0.08);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 0%, #fff4cc 0, transparent 30%),
+        radial-gradient(circle at 100% 8%, #d8f3e4 0, transparent 28%),
+        var(--bg);
+    }
+
+    .wrap {
+      width: min(760px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    header {
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin: 0 0 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--green-dark);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-top: 16px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #d7e2da;
+    }
+
+    .dot.now { background: var(--green); }
+    .dot.done { background: #9dcfb6; }
+
+    .sentence {
+      margin: 0 0 18px;
+      padding: 18px 18px 16px;
+      border-radius: 16px;
+      background: #f7faf7;
+      font-size: 28px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 4.2em;
+      margin: 0 6px;
+      border-bottom: 3px dashed var(--green);
+      color: transparent;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .option {
+      width: 100%;
+      min-height: 64px;
+      padding: 14px 18px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 24px;
+      font-weight: 700;
+      text-align: left;
+      transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    }
+
+    .option:hover:not(:disabled) {
+      border-color: #b7d7c6;
+      transform: translateY(-1px);
+    }
+
+    .option:focus-visible,
+    .action:focus-visible,
+    .ghost:focus-visible {
+      outline: 3px solid #8fd0b0;
+      outline-offset: 2px;
+    }
+
+    .option:disabled { cursor: default; }
+
+    .option.is-correct {
+      border-color: var(--green);
+      background: var(--green-soft);
+      color: var(--green-dark);
+    }
+
+    .option.is-wrong {
+      border-color: var(--coral);
+      background: var(--coral-soft);
+      color: #8d3424;
+    }
+
+    .feedback {
+      border: 2px solid transparent;
+    }
+
+    .feedback.is-correct {
+      background: var(--green-soft);
+      border-color: #b7e3cb;
+    }
+
+    .feedback.is-wrong {
+      background: #fff8f5;
+      border-color: #f3cfc4;
+    }
+
+    .result {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .feedback.is-correct .result { color: var(--green-dark); }
+    .feedback.is-wrong .result { color: #8d3424; }
+
+    .hint {
+      margin: 12px 0 0;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .hint strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #8d3424;
+    }
+
+    .action {
+      margin-top: 16px;
+      min-height: 56px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--green);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .action:hover { background: var(--green-dark); }
+
+    .feedback.is-wrong .action {
+      background: var(--coral);
+    }
+
+    .feedback.is-wrong .action:hover { background: #a84834; }
+
+    .book-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .empty {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .book-list {
+      list-style: none;
+      margin: 14px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .book-item {
+      padding: 16px;
+      border-radius: 16px;
+      background: #f7faf7;
+      border: 1px solid var(--line);
+    }
+
+    .book-item.fresh {
+      border-color: #e2c56a;
+      background: #fff9e8;
+    }
+
+    .qid {
+      margin: 0;
+      color: var(--green-dark);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .book-sentence {
+      margin: 6px 0;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .choices {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    details {
+      margin-top: 8px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--green-dark);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .answer-line {
+      margin: 8px 0 0;
+      font-size: 17px;
+    }
+
+    .book-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .ghost {
+      min-height: 42px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      border: 2px solid var(--line);
+      background: #fff;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .ghost:hover { border-color: #b7d7c6; }
+
+    .done-title {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .done-copy {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="badge">五年级 · 英语</p>
+      <h1>错词辨析小练习</h1>
+      <p class="subtitle">读句子，点选更合适的单词。答错了可以收下线索，再练一次。</p>
+    </header>
+
+    <section class="card" id="quiz" aria-labelledby="quiz-title">
+      <div class="progress">
+        <span id="progress-text">第 1 题 / 共 3 题</span>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+      </div>
+      <h2 id="quiz-title" class="visually-hidden">答题区</h2>
+      <p class="sentence" id="sentence"></p>
+      <div class="options" id="options" role="group" aria-label="选项"></div>
+      <div id="done" hidden>
+        <p class="done-title">三道题都练完啦</p>
+        <p class="done-copy">可以打开错题本再看一看，或者从头再练一轮。</p>
+        <button class="action" id="restart" type="button">从头再练</button>
+      </div>
+    </section>
+
+    <section class="card feedback" id="feedback" hidden aria-live="polite">
+      <p class="result" id="result"></p>
+      <p class="hint" id="hint" hidden></p>
+      <button class="action" id="feedback-action" type="button"></button>
+    </section>
+
+    <section class="card" id="notebook" aria-labelledby="book-title">
+      <div class="book-head">
+        <h2 id="book-title">错题本</h2>
+        <span class="count" id="book-count">0 题</span>
+      </div>
+      <p class="empty" id="book-empty">错题本还是空的。答错后加入这里，刷新页面也不会丢。</p>
+      <ul class="book-list" id="book-list"></ul>
+    </section>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      {
+        id: "Q01",
+        sentence: "May I ___ your ruler?",
+        options: ["borrow", "lend"],
+        answer: "borrow",
+        hint: "想想看，是‘我’向别人借，还是‘我’把东西借给别人？注意动作的方向哦。"
+      },
+      {
+        id: "Q02",
+        sentence: "I can't ___ my keys. I've looked everywhere.",
+        options: ["find", "look for"],
+        answer: "find",
+        hint: "I've looked everywhere 说明已经找过了，这里强调的是找的‘结果’——没找到，所以用 find。"
+      },
+      {
+        id: "Q03",
+        sentence: "Please ___ me carefully. I'll explain the rules.",
+        options: ["listen to", "hear"],
+        answer: "listen to",
+        hint: "carefully 提醒你要‘主动、认真’地听，用 listen to；hear 是自然而然地听到。"
+      }
+    ];
+
+    const STORAGE_KEY = "grade5-english-mistake-book";
+
+    const sentenceEl = document.getElementById("sentence");
+    const optionsEl = document.getElementById("options");
+    const progressText = document.getElementById("progress-text");
+    const dotsEl = document.getElementById("dots");
+    const doneEl = document.getElementById("done");
+    const feedbackEl = document.getElementById("feedback");
+    const resultEl = document.getElementById("result");
+    const hintEl = document.getElementById("hint");
+    const actionBtn = document.getElementById("feedback-action");
+    const bookList = document.getElementById("book-list");
+    const bookEmpty = document.getElementById("book-empty");
+    const bookCount = document.getElementById("book-count");
+
+    let index = 0;
+    let locked = false;
+    let mistakes = loadMistakes();
+    let freshId = "";
+
+    document.getElementById("restart").addEventListener("click", function () {
+      index = 0;
+      renderQuestion();
+    });
+
+    function loadMistakes() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(list)) return [];
+        return list.filter(function (item) {
+          return item && item.id && item.sentence;
+        });
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveMistakes() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mistakes));
+    }
+
+    function renderSentence(text) {
+      sentenceEl.textContent = "";
+      const parts = text.split("___");
+      parts.forEach(function (part, i) {
+        sentenceEl.appendChild(document.createTextNode(part));
+        if (i < parts.length - 1) {
+          const blank = document.createElement("span");
+          blank.className = "blank";
+          blank.textContent = "____";
+          sentenceEl.appendChild(blank);
+        }
+      });
+    }
+
+    function renderDots() {
+      dotsEl.textContent = "";
+      QUESTIONS.forEach(function (_, i) {
+        const dot = document.createElement("span");
+        dot.className = "dot" + (i === index ? " now" : i < index ? " done" : "");
+        dotsEl.appendChild(dot);
+      });
+    }
+
+    function renderQuestion() {
+      const question = QUESTIONS[index];
+      locked = false;
+      doneEl.hidden = true;
+      sentenceEl.hidden = false;
+      optionsEl.hidden = false;
+      feedbackEl.hidden = true;
+      progressText.textContent = "第 " + (index + 1) + " 题 / 共 " + QUESTIONS.length + " 题";
+      renderDots();
+      renderSentence(question.sentence);
+      optionsEl.textContent = "";
+
+      question.options.forEach(function (option) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "option";
+        button.textContent = option;
+        button.addEventListener("click", function () {
+          choose(option, button);
+        });
+        optionsEl.appendChild(button);
+      });
+    }
+
+    function choose(option, button) {
+      if (locked) return;
+      locked = true;
+      const question = QUESTIONS[index];
+      const correct = option === question.answer;
+
+      optionsEl.querySelectorAll("button").forEach(function (item) {
+        item.disabled = true;
+      });
+
+      feedbackEl.hidden = false;
+      feedbackEl.classList.remove("is-correct", "is-wrong");
+
+      if (correct) {
+        button.classList.add("is-correct");
+        feedbackEl.classList.add("is-correct");
+        resultEl.textContent = "回答正确";
+        hintEl.hidden = true;
+        hintEl.textContent = "";
+        actionBtn.textContent = "进入下一题";
+        actionBtn.onclick = goNext;
+      } else {
+        button.classList.add("is-wrong");
+        feedbackEl.classList.add("is-wrong");
+        resultEl.textContent = "先看一条线索";
+        hintEl.hidden = false;
+        hintEl.textContent = "";
+        const label = document.createElement("strong");
+        label.textContent = "线索提示";
+        hintEl.appendChild(label);
+        hintEl.appendChild(document.createTextNode(question.hint));
+        actionBtn.textContent = "加入错题本并重练";
+        actionBtn.onclick = addAndRetry;
+      }
+    }
+
+    function goNext() {
+      if (index >= QUESTIONS.length - 1) {
+        showDone();
+        return;
+      }
+      index += 1;
+      renderQuestion();
+    }
+
+    function showDone() {
+      feedbackEl.hidden = true;
+      sentenceEl.hidden = true;
+      optionsEl.hidden = true;
+      doneEl.hidden = false;
+      progressText.textContent = "已完成";
+      dotsEl.querySelectorAll(".dot").forEach(function (dot) {
+        dot.className = "dot done";
+      });
+    }
+
+    function addAndRetry() {
+      const question = QUESTIONS[index];
+      const exists = mistakes.some(function (item) {
+        return item.id === question.id;
+      });
+      if (!exists) {
+        mistakes.push({
+          id: question.id,
+          sentence: question.sentence,
+          options: question.options.slice(),
+          answer: question.answer,
+          hint: question.hint
+        });
+        saveMistakes();
+      }
+      freshId = question.id;
+      renderNotebook();
+      renderQuestion();
+    }
+
+    function renderNotebook() {
+      bookCount.textContent = mistakes.length + " 题";
+      bookList.textContent = "";
+      bookEmpty.hidden = mistakes.length > 0;
+
+      mistakes.forEach(function (item) {
+        const li = document.createElement("li");
+        li.className = "book-item" + (item.id === freshId ? " fresh" : "");
+
+        const qid = document.createElement("p");
+        qid.className = "qid";
+        qid.textContent = item.id;
+
+        const sentence = document.createElement("p");
+        sentence.className = "book-sentence";
+        sentence.textContent = item.sentence;
+
+        const choices = document.createElement("p");
+        choices.className = "choices";
+        choices.textContent = "选项：" + item.options.join("  /  ");
+
+        const details = document.createElement("details");
+        const summary = document.createElement("summary");
+        summary.textContent = "查看答案和线索";
+        const answer = document.createElement("p");
+        answer.className = "answer-line";
+        answer.textContent = "正确答案：" + item.answer;
+        const hint = document.createElement("p");
+        hint.className = "answer-line";
+        hint.textContent = "线索：" + item.hint;
+        details.appendChild(summary);
+        details.appendChild(answer);
+        details.appendChild(hint);
+
+        const actions = document.createElement("div");
+        actions.className = "book-actions";
+
+        const practice = document.createElement("button");
+        practice.type = "button";
+        practice.className = "ghost";
+        practice.textContent = "再练这题";
+        practice.addEventListener("click", function () {
+          const nextIndex = QUESTIONS.findIndex(function (question) {
+            return question.id === item.id;
+          });
+          if (nextIndex >= 0) {
+            index = nextIndex;
+            renderQuestion();
+            document.getElementById("quiz").scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "ghost";
+        remove.textContent = "移出";
+        remove.addEventListener("click", function () {
+          mistakes = mistakes.filter(function (saved) {
+            return saved.id !== item.id;
+          });
+          saveMistakes();
+          freshId = "";
+          renderNotebook();
+        });
+
+        actions.appendChild(practice);
+        actions.appendChild(remove);
+        li.appendChild(qid);
+        li.appendChild(sentence);
+        li.appendChild(choices);
+        li.appendChild(details);
+        li.appendChild(actions);
+        bookList.appendChild(li);
+      });
+    }
+
+    renderNotebook();
+    renderQuestion();
+  </script>
+</body>
+</html>
